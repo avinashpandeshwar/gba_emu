@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>GBA EMU</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=160, initial-scale=1, shrink-to-fit=no">
+        <!--Required Scripts-->
+        <script src="IodineGBA/includes/TypedArrayShim.js"></script>
+        <script src="IodineGBA/core/Cartridge.js"></script>
+        <script src="IodineGBA/core/DMA.js"></script>
+        <script src="IodineGBA/core/Emulator.js"></script>
+        <script src="IodineGBA/core/Graphics.js"></script>
+        <script src="IodineGBA/core/RunLoop.js"></script>
+        <script src="IodineGBA/core/Memory.js"></script>
+        <script src="IodineGBA/core/IRQ.js"></script>
+        <script src="IodineGBA/core/JoyPad.js"></script>
+        <script src="IodineGBA/core/Serial.js"></script>
+        <script src="IodineGBA/core/Sound.js"></script>
+        <script src="IodineGBA/core/Timer.js"></script>
+        <script src="IodineGBA/core/Wait.js"></script>
+        <script src="IodineGBA/core/CPU.js"></script>
+        <script src="IodineGBA/core/Saves.js"></script>
+        <script src="IodineGBA/core/sound/FIFO.js"></script>
+        <script src="IodineGBA/core/sound/Channel1.js"></script>
+        <script src="IodineGBA/core/sound/Channel2.js"></script>
+        <script src="IodineGBA/core/sound/Channel3.js"></script>
+        <script src="IodineGBA/core/sound/Channel4.js"></script>
+        <script src="IodineGBA/core/CPU/ARM.js"></script>
+        <script src="IodineGBA/core/CPU/THUMB.js"></script>
+        <script src="IodineGBA/core/CPU/CPSR.js"></script>
+        <script src="IodineGBA/core/graphics/Renderer.js"></script>
+        <script src="IodineGBA/core/graphics/RendererShim.js"></script>
+        <script src="IodineGBA/core/graphics/RendererProxy.js"></script>
+        <script src="IodineGBA/core/graphics/BGTEXT.js"></script>
+        <script src="IodineGBA/core/graphics/BG2FrameBuffer.js"></script>
+        <script src="IodineGBA/core/graphics/BGMatrix.js"></script>
+        <script src="IodineGBA/core/graphics/AffineBG.js"></script>
+        <script src="IodineGBA/core/graphics/ColorEffects.js"></script>
+        <script src="IodineGBA/core/graphics/Mosaic.js"></script>
+        <script src="IodineGBA/core/graphics/OBJ.js"></script>
+        <script src="IodineGBA/core/graphics/OBJWindow.js"></script>
+        <script src="IodineGBA/core/graphics/Window.js"></script>
+        <script src="IodineGBA/core/graphics/Compositor.js"></script>
+        <script src="IodineGBA/core/memory/DMA0.js"></script>
+        <script src="IodineGBA/core/memory/DMA1.js"></script>
+        <script src="IodineGBA/core/memory/DMA2.js"></script>
+        <script src="IodineGBA/core/memory/DMA3.js"></script>
+        <script src="IodineGBA/core/cartridge/SaveDeterminer.js"></script>
+        <script src="IodineGBA/core/cartridge/SRAM.js"></script>
+        <script src="IodineGBA/core/cartridge/FLASH.js"></script>
+        <script src="IodineGBA/core/cartridge/EEPROM.js"></script>
+        <script src="IodineGBA/core/cartridge/GPIO.js"></script>
+        <!--Add your webpage scripts below-->
+        <script src="user_scripts/AudioGlueCode.js"></script>
+        <script src="user_scripts/base64.js"></script>
+        <script src="user_scripts/CoreGlueCode.js"></script>
+        <script src="user_scripts/GfxGlueCode.js"></script>
+        <script src="user_scripts/GUIGlueCode.js"></script>
+        <script src="user_scripts/JoyPadGlueCode.js"></script>
+        <script src="user_scripts/ROMLoadGlueCode.js"></script>
+        <script src="user_scripts/SavesGlueCode.js"></script>
+        <script src="user_scripts/WorkerGfxGlueCode.js"></script>
+        <script src="user_scripts/WorkerGlueCode.js"></script>
+        <script src="user_scripts/XAudioJS/swfobject.js"></script>
+        <script src="user_scripts/XAudioJS/resampler.js"></script>
+        <script src="user_scripts/XAudioJS/XAudioServer.js"></script>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="user_css/main2.css">
+        <style>
+            /* Extra small devices (portrait phones, less than 576px) */
+            /* No media query since this is the default in Bootstrap */
+            
+            /* Small devices (landscape phones, 576px and up) */
+            @media (min-width: 576px) {
+                body {
+                    background-color: lightblue;
+                }
+            }
+            
+            /* Medium devices (tablets, 768px and up) */
+            @media (min-width: 768px) {
+                body {
+                    background-color: green;
+                }
+            }
+            
+            /* Large devices (desktops, 992px and up) */
+            @media (min-width: 992px) {
+                body {
+                    background-color: yellow;
+                }
+            }
+            
+            /* Extra large devices (large desktops, 1200px and up) */
+            @media (min-width: 1200px) {
+
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="container-fluid" id="main-console" style="height:100%;">
+            <div class="row" style="height:100%;">
+                <div class="col-sm-3 col-md-3" style="background-color:#957bbe;">
+                    Direction
+                </div>
+                <div class="col-sm-6 col-md-6" style="background-color:black;">
+                </div>
+                <div class="col-sm-3 col-md-3" style="background-color:#957bbe;">
+                    Control
+                </div>
+            </div>
+
+            <nav class="navbar fixed-bottom navbar-light">
+                <div class="collapse navbar-collapse bg-light" id="navbarToggler" style="padding:15px;">
+                    <ul class="navbar-nav mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">ROM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">BIOS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Play</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Restart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Volume</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Saves</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Fullscreen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Speed</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
