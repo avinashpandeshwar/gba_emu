@@ -70,33 +70,28 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="user_css/main2.css">
         <style>
+            .navbar-collapse.collapsing,
+            .navbar-collapse.show {
+                background:white !important;
+            }
             /* Extra small devices (portrait phones, less than 576px) */
             /* No media query since this is the default in Bootstrap */
-            
+
             /* Small devices (landscape phones, 576px and up) */
             @media (min-width: 576px) {
-                body {
-                    background-color: lightblue;
-                }
             }
             
             /* Medium devices (tablets, 768px and up) */
             @media (min-width: 768px) {
-                body {
-                    background-color: green;
-                }
+
             }
             
             /* Large devices (desktops, 992px and up) */
             @media (min-width: 992px) {
-                body {
-                    background-color: yellow;
-                }
             }
             
             /* Extra large devices (large desktops, 1200px and up) */
             @media (min-width: 1200px) {
-
             }
         </style>
     </head>
@@ -104,18 +99,19 @@
 
         <div class="container-fluid" id="main-console" style="height:100%;">
             <div class="row" style="height:100%;">
-                <div class="col-sm-3 col-md-3" style="background-color:#957bbe;">
+                <div class="col-12 col-sm-6 order-sm-2" style="background-color:black;">
+                    Screen
+                </div>
+                <div class="col-6 col-sm-3 order-sm-1" style="background-color:#957bbe;">
                     Direction
                 </div>
-                <div class="col-sm-6 col-md-6" style="background-color:black;">
-                </div>
-                <div class="col-sm-3 col-md-3" style="background-color:#957bbe;">
+                <div class="col-6 col-sm-3 order-sm-3" style="background-color:#957bbe;">
                     Control
                 </div>
             </div>
 
             <nav class="navbar fixed-bottom navbar-light">
-                <div class="collapse navbar-collapse bg-light" id="navbarToggler" style="padding:15px;">
+                <div class="collapse navbar-collapse" id="navbarToggler" style="padding:15px; max-height: 280px; overflow-y: auto;">
                     <ul class="navbar-nav mt-2 mt-lg-0">
                         <li class="nav-item active">
                             <a class="nav-link" href="#">ROM</a>
